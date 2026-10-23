@@ -13,7 +13,7 @@ services:
     environment:
       # senha da página, lida do arquivo .env (copie de .env.example);
       # deixe vazia para criar a senha no primeiro acesso
-      - WGEC_PASSWORD=${WGEC_PASSWORD:-}
+      - WGEC_PASSWORD=sua-senha-aqui
       - WGEC_PORT=51821
       # para aceitar acesso só pelo próprio computador:
       # - WGEC_HOST=127.0.0.1
