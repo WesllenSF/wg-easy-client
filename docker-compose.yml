@@ -1,0 +1,31 @@
+services:
+  wg-easy-client:
+    # imagem pronta, baixada automaticamente (publicada pelo GitHub Actions)
+    image: ghcr.io/wesllensf/wg-easy-client:latest
+    # monta a imagem a partir deste código com "docker compose up -d --build";
+    # remova esta linha se for colar o compose num lugar sem o código (ex.: Dockge)
+    build: .
+    container_name: wg-easy-client
+    # rede do host: o túnel vale para o computador inteiro, como no cliente Windows
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      # senha da página, lida do arquivo .env (copie de .env.example);
+      # deixe vazia para criar a senha no primeiro acesso
+      - WGEC_PASSWORD=${WGEC_PASSWORD:-}
+      - WGEC_PORT=51821
+      # para aceitar acesso só pelo próprio computador:
+      # - WGEC_HOST=127.0.0.1
+      # para liberar PreUp/PostUp/PreDown/PostDown nos .conf:
+      # - WGEC_ALLOW_SCRIPTS=1
+      # se o host usa iptables-legacy em vez de nftables:
+      # - WGEC_IPTABLES=legacy
+    volumes:
+      - ./config:/config
+      # para que a linha "DNS =" do túnel valha para o host inteiro:
+      # - /etc/resolv.conf:/host/resolv.conf
+    restart: unless-stopped
+    stop_grace_period: 20s
+    mem_limit: 64m
+    cpus: 0.5

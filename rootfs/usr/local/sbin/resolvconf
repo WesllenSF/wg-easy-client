@@ -1,0 +1,22 @@
+#!/bin/sh
+# Substituto mínimo do resolvconf, chamado pelo wg-quick quando o túnel tem "DNS =".
+# Se o resolv.conf do host estiver montado em /host/resolv.conf, o DNS do túnel vale
+# para o host inteiro; senão, só para o próprio contêiner.
+TARGET=/etc/resolv.conf
+[ -f /host/resolv.conf ] && TARGET=/host/resolv.conf
+BACKUP="${WGEC_DATA:-/config}/.resolv.conf.backup"
+
+case "$1" in
+  -a)
+    # guarda o original só na primeira vez (troca direta de túnel mantém o backup)
+    [ -f "$BACKUP" ] || cat "$TARGET" > "$BACKUP"
+    # escreve no mesmo arquivo (sem renomear) para funcionar com bind mount
+    { echo "# gerado pelo wg-easy-client ($2)"; cat; } > "$TARGET"
+    ;;
+  -d)
+    if [ -f "$BACKUP" ]; then
+      cat "$BACKUP" > "$TARGET" && rm -f "$BACKUP"
+    fi
+    ;;
+esac
+exit 0

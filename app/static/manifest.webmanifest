@@ -1,0 +1,9 @@
+{
+  "name": "wg-easy-client",
+  "short_name": "WG Client",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#a3232a",
+  "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]
+}

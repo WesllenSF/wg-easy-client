@@ -1,0 +1,19 @@
+# segredos e dados locais: senha, túneis (chaves privadas), sessões
+.env
+config/
+dev-data/
+mockdata/
+*.conf
+*.zip
+.resolv.conf.backup
+
+# Python
+__pycache__/
+*.pyc
+
+# editores / SO
+.vscode/
+.idea/
+.claude/
+.DS_Store
+Thumbs.db
